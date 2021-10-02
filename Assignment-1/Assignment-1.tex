@@ -4,7 +4,7 @@
 \usepackage{gensymb}
 \singlespacing
 \usepackage[cmex10]{amsmath}
-
+\usepackage{tcolorbox}
 \usepackage{amsthm}
 
 \usepackage{mathrsfs}
@@ -136,12 +136,12 @@ https://github.com/shruti-chepuri/C-DS/tree/main/Assignment-1
 \end{lstlisting}
 \section{Problem}
 (Q 12) Consider the following intermediate program in three address code
-\begin{lstlisting}
-p  = a - b
-q = p * c
-p = u * v
-q = p + q
-\end{lstlisting}
+\begin{tcolorbox}[colback=gray!50!white]
+p  = a - b \\
+q = p * c \\
+p = u * v \\
+q = p + q \\
+\end{tcolorbox}
 Which one of the following corresponds to a static single assignment from the above code?
 \section{Solution}
 \textbf{Answer:} 
@@ -159,19 +159,49 @@ According to Static Single Assignment:
     \item A variable should be initialized utmost once.
 \end{itemize}
 
-Now keeping in mind the above two rules we have,
+Now keeping in mind the above two rules we have, let us look at the options given: \\
+A) 
+\begin{tcolorbox}
 $p_{1}  = a - b \\
 q_{1}  = p_1*c$ \\
-$p_{2}$  = u*v // $p_{1}$ as already been used once in the LHS \\ 
-$q_{2}  = p_{2} + q_{1}$ // $q_{1}$ has already been used once before \\ 
-
-Thus the SSA form is \\
+$p_{1}$  = u*v // $p_{1}$ as already been used once in the LHS \\ 
+$q_{1}  = p_{2} + q_{1}$ // $q_{1}$ has already been assigned once before \\ 
+\end{tcolorbox}
+This code violates condition 1 as $p_1$ is initialized again in this statement: $p_1$ = u * v. \\
+B)
+\begin{tcolorbox}
+$p_{3}  = a - b$
+$q_{4}  = p_3*c$ \\
+$p_{4}$  = u*v // $p_{3}$ as already been used once in the LHS so we introduce $p_4$ \\ 
+$q_{5}  = p_{3} + q_{4}$ // $q_{1}$ has already been used once before hence $q_5$\\ 
+\end{tcolorbox}
+Option B satisfies all the rules of SSA. \\
+C)
+\begin{tcolorbox}
 $p_{1}  = a - b \\
-q_{1}  = p_1*c$ \\
+q_{1}  = p_2*c$ // $p_2$ does not exist \\
+$p_{3}  = u*v  \\
+q_{2}  = p_{4} + q_{3}$ // $p_4$ and $q_3$ do not exist\\
+\end{tcolorbox}
+Option C is invalid since $p_2,p_4,q_3$ are not initialized anywhere. \\
+D)
+\begin{tcolorbox}
+$p_{1}  = a - b \\
+q_{1}  = p*c$ \\
 $p_{2}  = u*v  \\
-q_{2}  = p_{2} + q_{1}$ \\
+q_{2}  = p + q$ \\
+\end{tcolorbox}
+This code is invalid as well since in the original intermediate program, q is sum of the modified variables p and q( they are modified in instructions 1-3), but here $q_2$ is written as a sum of the original p and q values and not the modified values. \\
+Thus the SSA form is 
+\begin{tcolorbox}[colback=gray!50!white]
+$p_{3}  = a - b \\
+q_{4}  = p_3*c$ \\
+$p_{4}$  = u*v \\ 
+$q_{5}  = p_{3} + q_{4}$
+\end{tcolorbox}
 
 \textbf{Advantages of using SSA form:} \\
 Using the SSA opens a bunch of opportunities for compiler optimisations like dead code elimination, strength reduction, register allocation, etc 
 \end{document}
+
 
