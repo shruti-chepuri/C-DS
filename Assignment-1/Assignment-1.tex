@@ -136,7 +136,7 @@ https://github.com/shruti-chepuri/C-DS/tree/main/Assignment-1
 \end{lstlisting}
 \section{Problem}
 (Q 12) Consider the following intermediate program in three address code
-\begin{tcolorbox}[colback=gray!50!white]
+\begin{tcolorbox}
 p  = a - b \\
 q = p * c \\
 p = u * v \\
@@ -150,34 +150,34 @@ Static single assignment form is a property of an intermediate representation (I
 
  A compiler can be divided into two parts : the front end (analysis part) and the back end (synthesis part). The intermediate code comes in between these two parts. The front end after preforming lexical, syntax and semantic analysis produces the intermediate code which is consumed or used or fed into the back end for producing the target code or machine code. \\
  
- The front end is language specific and the back end is machine specific. In other worlds the front end of a C compiler is same in two machines but the back end might be different because of the difference in the architecture and instruction set of the machines. \\
+ The front end is language specific and the back end is machine specific. In other words the front end of a C compiler is same in two machines but the back end might be different because of the difference in the architecture and instruction set of the machines. \\
  
  \textbf{Static Single Assignment form (SSA form)} \\
 According to Static Single Assignment: 
 \begin{itemize}
     \item A variable cannot be used more than once in the LHS.
-    \item A variable should be initialized utmost once.
+    \item A variable should be initialized atmost once.
 \end{itemize}
 
 Now keeping in mind the above two rules we have, let us look at the options given: \\
 A) 
-\begin{tcolorbox}
+\begin{tcolorbox}[colback=white]
 $p_{1}  = a - b \\
 q_{1}  = p_1*c$ \\
 $p_{1}$  = u*v // $p_{1}$ as already been used once in the LHS \\ 
 $q_{1}  = p_{2} + q_{1}$ // $q_{1}$ has already been assigned once before \\ 
 \end{tcolorbox}
-This code violates condition 1 as $p_1$ is initialized again in this statement: $p_1$ = u * v. \\
+This code violates condition 1 as $p_1$ has been assigned more than once. \\
 B)
-\begin{tcolorbox}
-$p_{3}  = a - b$
+\begin{tcolorbox}[colback=white]
+$p_{3}  = a - b$ \\
 $q_{4}  = p_3*c$ \\
 $p_{4}$  = u*v // $p_{3}$ as already been used once in the LHS so we introduce $p_4$ \\ 
 $q_{5}  = p_{3} + q_{4}$ // $q_{1}$ has already been used once before hence $q_5$\\ 
 \end{tcolorbox}
 Option B satisfies all the rules of SSA. \\
 C)
-\begin{tcolorbox}
+\begin{tcolorbox}[colback=white]
 $p_{1}  = a - b \\
 q_{1}  = p_2*c$ // $p_2$ does not exist \\
 $p_{3}  = u*v  \\
@@ -185,15 +185,15 @@ q_{2}  = p_{4} + q_{3}$ // $p_4$ and $q_3$ do not exist\\
 \end{tcolorbox}
 Option C is invalid since $p_2,p_4,q_3$ are not initialized anywhere. \\
 D)
-\begin{tcolorbox}
+\begin{tcolorbox}[colback=white]
 $p_{1}  = a - b \\
 q_{1}  = p*c$ \\
 $p_{2}  = u*v  \\
 q_{2}  = p + q$ \\
 \end{tcolorbox}
-This code is invalid as well since in the original intermediate program, q is sum of the modified variables p and q( they are modified in instructions 1-3), but here $q_2$ is written as a sum of the original p and q values and not the modified values. \\
+This code is invalid as well since in the original intermediate program, q is sum of the modified variables p and q(they are modified in instructions 1-3), but here $q_2$ is written as a sum of the original p and q values and not the modified values( i.e. $p_2 + q_1$). \\
 Thus the SSA form is 
-\begin{tcolorbox}[colback=gray!50!white]
+\begin{tcolorbox}
 $p_{3}  = a - b \\
 q_{4}  = p_3*c$ \\
 $p_{4}$  = u*v \\ 
@@ -203,5 +203,3 @@ $q_{5}  = p_{3} + q_{4}$
 \textbf{Advantages of using SSA form:} \\
 Using the SSA opens a bunch of opportunities for compiler optimisations like dead code elimination, strength reduction, register allocation, etc 
 \end{document}
-
-
